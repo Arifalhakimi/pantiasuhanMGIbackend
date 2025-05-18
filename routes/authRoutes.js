@@ -61,10 +61,10 @@ router.get(
       );
 
       // Redirect ke frontend dengan token
-      res.redirect(`http://localhost:5173/login-success?token=${token}`);
+      res.redirect(`https://blanchedalmond-mongoose-893500.hostingersite.com/login-success?token=${token}`);
     } catch (error) {
       console.error("Error in Google callback:", error);
-      res.redirect("http://localhost:5173/login?error=authentication_failed");
+      res.redirect("https://blanchedalmond-mongoose-893500.hostingersite.com/login?error=authentication_failed");
     }
   }
 );

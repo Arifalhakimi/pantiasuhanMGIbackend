@@ -66,9 +66,9 @@ const createToken = async (donationData) => {
     },
     enabled_payments: ["credit_card", "bank_transfer", "gopay", "shopeepay"],
     callbacks: {
-      finish: `http://localhost:5000/api/donations/status/${donationData.order_id}`,
-      error: `http://localhost:5000/api/donations/status/${donationData.order_id}`,
-      pending: `http://localhost:5000/api/donations/status/${donationData.order_id}`,
+      finish: `https://backend-pantiasuhan-bhhhgnhjhshxczhd.indonesiacentral-01.azurewebsites.net/api/donations/status/${donationData.order_id}`,
+      error: `https://backend-pantiasuhan-bhhhgnhjhshxczhd.indonesiacentral-01.azurewebsites.net/api/donations/status/${donationData.order_id}`,
+      pending: `https://backend-pantiasuhan-bhhhgnhjhshxczhd.indonesiacentral-01.azurewebsites.net/api/donations/status/${donationData.order_id}`,
     },
   };
 

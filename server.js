@@ -13,7 +13,7 @@ const userRoutes = require("./routes/userRoutes");
 const donationsRoutes = require("./routes/donationsRoutes");
 const paymentRoutes = require("./routes/payment");
 const adminRoutes = require("./routes/adminRoutes");
-const pertanyaanRoutes = require('./routes/pertanyaanRoutes');
+const pertanyaanRoutes = require("./routes/pertanyaanRoutes");
 
 const app = express();
 
@@ -23,7 +23,11 @@ app.use(morgan("dev"));
 // Konfigurasi CORS
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://localhost:5173", "https://blanchedalmond-mongoose-893500.hostingersite.com"],
+    origin: [
+      "http://localhost:3000",
+      "http://localhost:5173",
+      "https://blanchedalmond-mongoose-893500.hostingersite.com",
+    ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
@@ -68,9 +72,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/donations", donationsRoutes);
 app.use("/api/payment", paymentRoutes);
 app.use("/api/admin", adminRoutes);
-app.use('/api/pertanyaan', pertanyaanRoutes);
-
-
+app.use("/api/pertanyaan", pertanyaanRoutes);
 
 // Endpoint untuk testing notifikasi Midtrans
 app.post("/api/donations/notification", (req, res) => {
@@ -94,5 +96,5 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Server berjalan di http://localhost:${PORT}`);
+  console.log(`Server berjalan di port ${PORT}`);
 });

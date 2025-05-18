@@ -4,7 +4,7 @@ const readline = require("readline");
 const oauth2Client = new google.auth.OAuth2(
   "YOUR_CLIENT_ID", // Ganti dengan client ID Anda
   "YOUR_CLIENT_SECRET", // Ganti dengan client secret Anda
-  "http://localhost:5000/auth/google/callback" // Ganti dengan callback URL Anda
+  "https://backend-pantiasuhan-bhhhgnhjhshxczhd.indonesiacentral-01.azurewebsites.net/auth/google/callback" // Ganti dengan callback URL Anda
 );
 
 const scopes = [
