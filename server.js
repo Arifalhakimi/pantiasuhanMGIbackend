@@ -70,10 +70,17 @@ app.use("/api/payment", paymentRoutes);
 app.use("/api/admin", adminRoutes);
 app.use('/api/pertanyaan', pertanyaanRoutes);
 
+
+
 // Endpoint untuk testing notifikasi Midtrans
 app.post("/api/donations/notification", (req, res) => {
   console.log("Notifikasi diterima:", req.body);
   res.status(200).send("OK");
+});
+
+// Tambahkan handler untuk root URL
+app.get("/", (req, res) => {
+  res.send("🎉 Backend API berjalan dengan baik!");
 });
 
 // Error handling middleware
