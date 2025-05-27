@@ -124,10 +124,9 @@ router.post("/donate", async (req, res) => {
 router.post("/notification", async (req, res) => {
   try {
     const notificationJson = req.body;
-    console.log(
-      "Notifikasi dari Midtrans:",
-      JSON.stringify(notificationJson, null, 2)
-    );
+    console.log("=== NOTIFIKASI MIDTRANS DITERIMA ===");
+    console.log("Headers:", req.headers);
+    console.log("Body:", JSON.stringify(notificationJson, null, 2));
 
     // Verifikasi signature
     const signatureKey = process.env.MIDTRANS_SERVER_KEY;
@@ -136,11 +135,21 @@ router.post("/notification", async (req, res) => {
     const grossAmount = notificationJson.gross_amount;
     const signature = notificationJson.signature_key;
 
+    console.log("=== DETAIL VERIFIKASI ===");
+    console.log("Order ID:", orderId);
+    console.log("Status Code:", statusCode);
+    console.log("Gross Amount:", grossAmount);
+    console.log("Signature:", signature);
+    console.log("Server Key:", signatureKey);
+
     // Generate signature untuk verifikasi
     const expectedSignature = crypto
       .createHash("sha512")
       .update(orderId + statusCode + grossAmount + signatureKey)
       .digest("hex");
+
+    console.log("Expected Signature:", expectedSignature);
+    console.log("Signature Match:", signature === expectedSignature);
 
     if (signature !== expectedSignature) {
       console.error("Signature tidak valid");
