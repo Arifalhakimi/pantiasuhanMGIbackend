@@ -248,26 +248,47 @@ router.post("/notification", async (req, res) => {
 router.get("/status/:order_id", async (req, res) => {
   try {
     const { order_id } = req.params;
-    const [donation] = await db.query(
-      "SELECT * FROM donations WHERE order_id = ?",
-      [order_id]
-    );
+    const { transaction_status, status_code } = req.query;
 
-    if (!donation) {
-      return res.status(404).json({ error: "Transaksi tidak ditemukan" });
+    console.log("=== STATUS CALLBACK DITERIMA ===");
+    console.log("Order ID:", order_id);
+    console.log("Transaction Status:", transaction_status);
+    console.log("Status Code:", status_code);
+
+    // Update status di database jika ada
+    if (transaction_status) {
+      let status = "pending";
+      switch (transaction_status) {
+        case "capture":
+        case "settlement":
+          status = "success";
+          break;
+        case "deny":
+        case "cancel":
+          status = "failed";
+          break;
+        case "expire":
+          status = "expired";
+          break;
+      }
+
+      await db.query(
+        `UPDATE donations 
+         SET status = ?, 
+             updated_at = NOW() 
+         WHERE order_id = ?`,
+        [status, order_id]
+      );
+
+      console.log(`Status transaksi ${order_id} diperbarui menjadi ${status}`);
     }
 
-    // Redirect berdasarkan status
-    if (donation.status === "success") {
-      return res.redirect("https://pantiasuhanmgi.my.id/");
-    } else if (donation.status === "failed") {
-      return res.redirect("https://pantiasuhanmgi.my.id/");
-    } else {
-      return res.redirect("https://pantiasuhanmgi.my.id/");
-    }
+    // Redirect ke halaman utama frontend
+    res.redirect("https://pantiasuhanmgi.my.id");
   } catch (error) {
     console.error("Error:", error);
-    res.status(500).json({ error: "Gagal mendapatkan status transaksi" });
+    // Redirect ke halaman utama meskipun ada error
+    res.redirect("https://pantiasuhanmgi.my.id");
   }
 });
 
