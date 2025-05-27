@@ -27,6 +27,7 @@ app.use(
       "http://localhost:3000",
       "http://localhost:5173",
       "https://blanchedalmond-mongoose-893500.hostingersite.com",
+      "https://pantiasuhanmgi.my.id",
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
