@@ -123,10 +123,19 @@ router.post("/donate", async (req, res) => {
 // Endpoint untuk menerima notifikasi dari Midtrans
 router.post("/notification", async (req, res) => {
   try {
-    const notificationJson = req.body;
     console.log("=== NOTIFIKASI MIDTRANS DITERIMA ===");
+    console.log("IP Address:", req.ip);
+    console.log("User Agent:", req.headers["user-agent"]);
+    console.log("Content Type:", req.headers["content-type"]);
+
+    const notificationJson = req.body;
     console.log("Headers:", req.headers);
     console.log("Body:", JSON.stringify(notificationJson, null, 2));
+
+    if (!notificationJson) {
+      console.error("Body notifikasi kosong");
+      return res.status(400).json({ error: "Body notifikasi kosong" });
+    }
 
     // Verifikasi signature
     const signatureKey = process.env.MIDTRANS_SERVER_KEY;
@@ -134,6 +143,16 @@ router.post("/notification", async (req, res) => {
     const statusCode = notificationJson.status_code;
     const grossAmount = notificationJson.gross_amount;
     const signature = notificationJson.signature_key;
+
+    if (!orderId || !statusCode || !grossAmount || !signature) {
+      console.error("Data notifikasi tidak lengkap:", {
+        orderId,
+        statusCode,
+        grossAmount,
+        signature,
+      });
+      return res.status(400).json({ error: "Data notifikasi tidak lengkap" });
+    }
 
     console.log("=== DETAIL VERIFIKASI ===");
     console.log("Order ID:", orderId);
