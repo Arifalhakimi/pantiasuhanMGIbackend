@@ -124,9 +124,11 @@ router.post("/donate", async (req, res) => {
 router.post("/notification", async (req, res) => {
   try {
     console.log("=== NOTIFIKASI MIDTRANS DITERIMA ===");
+    console.log("Timestamp:", new Date().toISOString());
     console.log("IP Address:", req.ip);
     console.log("User Agent:", req.headers["user-agent"]);
     console.log("Content Type:", req.headers["content-type"]);
+    console.log("Raw Body:", req.body);
 
     const notificationJson = req.body;
     console.log("Headers:", req.headers);
@@ -143,16 +145,6 @@ router.post("/notification", async (req, res) => {
     const statusCode = notificationJson.status_code;
     const grossAmount = notificationJson.gross_amount;
     const signature = notificationJson.signature_key;
-
-    if (!orderId || !statusCode || !grossAmount || !signature) {
-      console.error("Data notifikasi tidak lengkap:", {
-        orderId,
-        statusCode,
-        grossAmount,
-        signature,
-      });
-      return res.status(400).json({ error: "Data notifikasi tidak lengkap" });
-    }
 
     console.log("=== DETAIL VERIFIKASI ===");
     console.log("Order ID:", orderId);
@@ -179,6 +171,11 @@ router.post("/notification", async (req, res) => {
     const transactionStatus = notificationJson.transaction_status;
     const paymentType = notificationJson.payment_type;
     const transactionId = notificationJson.transaction_id;
+
+    console.log("=== STATUS TRANSAKSI ===");
+    console.log("Transaction Status:", transactionStatus);
+    console.log("Payment Type:", paymentType);
+    console.log("Transaction ID:", transactionId);
 
     let status = "pending";
     switch (transactionStatus) {
@@ -213,6 +210,8 @@ router.post("/notification", async (req, res) => {
         break;
     }
 
+    console.log("Status yang akan diupdate:", status);
+
     // Update data di database
     const [result] = await db.query(
       `UPDATE donations 
@@ -224,6 +223,8 @@ router.post("/notification", async (req, res) => {
       [status, paymentType, transactionId, orderId]
     );
 
+    console.log("=== HASIL UPDATE DATABASE ===");
+    console.log("Rows affected:", result.affectedRows);
     console.log(`Status transaksi ${orderId} diperbarui menjadi ${status}`);
     console.log(`Metode pembayaran: ${paymentType}`);
     console.log(`Transaction ID: ${transactionId}`);
@@ -238,6 +239,7 @@ router.post("/notification", async (req, res) => {
     res.status(200).json({ message: "Notifikasi berhasil diproses" });
   } catch (error) {
     console.error("Error memproses notifikasi:", error);
+    console.error("Stack trace:", error.stack);
     res.status(500).json({ error: "Gagal memproses notifikasi" });
   }
 });

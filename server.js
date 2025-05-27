@@ -28,9 +28,10 @@ app.use(
       "http://localhost:5173",
       "https://blanchedalmond-mongoose-893500.hostingersite.com",
       "https://pantiasuhanmgi.my.id",
+      "https://backend-pantiasuhan-bhhhgnhjhshxczhd.indonesiacentral-01.azurewebsites.net",
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
     credentials: true,
   })
 );
@@ -75,10 +76,12 @@ app.use("/api/payment", paymentRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/pertanyaan", pertanyaanRoutes);
 
-// Endpoint untuk testing notifikasi Midtrans
-app.post("/api/donations/notification", (req, res) => {
-  console.log("Notifikasi diterima:", req.body);
-  res.status(200).send("OK");
+// Middleware khusus untuk endpoint notifikasi Midtrans
+app.use("/api/donations/notification", (req, res, next) => {
+  console.log("=== MIDTRANS NOTIFICATION MIDDLEWARE ===");
+  console.log("Headers:", req.headers);
+  console.log("IP:", req.ip);
+  next();
 });
 
 // Tambahkan handler untuk root URL
