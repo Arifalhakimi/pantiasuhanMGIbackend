@@ -229,11 +229,11 @@ router.get("/status/:order_id", async (req, res) => {
 
     // Redirect berdasarkan status
     if (donation.status === "success") {
-      return res.redirect("https://blanchedalmond-mongoose-893500.hostingersite.com/");
+      return res.redirect("https://pantiasuhanmgi.my.id/");
     } else if (donation.status === "failed") {
-      return res.redirect("https://blanchedalmond-mongoose-893500.hostingersite.com/");
+      return res.redirect("https://pantiasuhanmgi.my.id/");
     } else {
-      return res.redirect("https://blanchedalmond-mongoose-893500.hostingersite.com/");
+      return res.redirect("https://pantiasuhanmgi.my.id/");
     }
   } catch (error) {
     console.error("Error:", error);
