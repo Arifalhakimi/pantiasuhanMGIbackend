@@ -157,7 +157,7 @@ const register = async (req, res) => {
 
     // Buat link verifikasi
     const frontendUrl = process.env.FRONTEND_URL.trim();
-    const verificationLink = `${frontendUrl}/verify-email?token=${verificationToken}`;
+    const verificationLink = `${frontendUrl}verify-email?token=${verificationToken}`;
 
     console.log("Verification link:", verificationLink);
 
