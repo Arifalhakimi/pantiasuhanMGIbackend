@@ -31,7 +31,7 @@ const registerUser = async (userData) => {
     // Hash password
     const hashedPassword = await bcrypt.hash(userData.password, 10);
 
-    // Cek apakah ini user pertama (akan menjadi admin)
+
     const [users] = await db.query("SELECT COUNT(*) as count FROM users");
     const isFirstUser = users[0].count === 0;
     const role = isFirstUser ? "admin" : "user";

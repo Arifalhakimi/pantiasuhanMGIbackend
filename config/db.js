@@ -16,7 +16,7 @@ const db = mysql.createPool({
 db.getConnection()
   .then((connection) => {
     console.log("✅ Koneksi database berhasil");
-    // Test query
+    
     return connection.query("SELECT 1");
   })
   .then(() => {

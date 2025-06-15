@@ -15,7 +15,7 @@ if (!process.env.MIDTRANS_CLIENT_KEY) {
 
 // Konfigurasi Snap
 const snap = new midtransClient.Snap({
-  isProduction: false, // Mode sandbox
+  isProduction: false, 
   serverKey: process.env.MIDTRANS_SERVER_KEY,
   clientKey: process.env.MIDTRANS_CLIENT_KEY,
 });

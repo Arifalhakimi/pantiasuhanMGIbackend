@@ -292,7 +292,7 @@ router.get("/status/:order_id", async (req, res) => {
   }
 });
 
-// Endpoint: Get donation history for a logged-in user
+// mendapatkan endpoint riwayat donasi dari user yang login
 router.get("/history", verifyToken, async (req, res) => {
   try {
     const userId = req.user.id;

@@ -24,7 +24,7 @@ router.post("/login", loginUser);
 // Verify email route
 router.get("/verify-email", verifyEmail);
 
-// Get current user route
+
 router.get("/me", auth, async (req, res) => {
   try {
     const [users] = await db.query(

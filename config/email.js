@@ -3,13 +3,11 @@ const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
 require("dotenv").config();
 
-// Cache untuk menyimpan token
 let tokenCache = {
   accessToken: null,
   expiry: null,
 };
 
-// Log semua environment variables yang diperlukan
 console.log("Checking OAuth2 configuration...");
 console.log("EMAIL_USER:", process.env.EMAIL_USER ? "Set" : "Not set");
 console.log(
@@ -53,7 +51,6 @@ oauth2Client.setCredentials({
 
 const getAccessToken = async () => {
   try {
-    // Cek apakah token masih valid (masih ada 5 menit sebelum expired)
     if (
       tokenCache.accessToken &&
       tokenCache.expiry &&
